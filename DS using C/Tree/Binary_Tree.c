@@ -11,7 +11,7 @@ struct Node{
 struct Node *newNode_creater(int key)
 {
     struct Node *newNode;
-    newNode =(struct Node *) malloc(sizeof(struct Node));
+    newNode = malloc(sizeof(struct Node));
     newNode->data = key;
     newNode->left = NULL;
     newNode->right = NULL;
@@ -82,6 +82,16 @@ void level_order(struct Node *root)
     }
 }
 
+void preOrder_traverse(struct Node *n)
+{
+    if(n != NULL)
+    {
+        printf("\n%d" ,n->data);
+        preOrder_traverse(n->left);
+        preOrder_traverse(n->right);
+    }
+}
+
 void inorder_traverse(struct Node *n)
 {
     if(n != NULL)
@@ -92,22 +102,32 @@ void inorder_traverse(struct Node *n)
     }
 }
 
+void postOrder_traverse(struct Node *n)
+{
+    if( n != NULL)
+    {
+        postOrder_traverse(n->left);
+        postOrder_traverse(n->right);
+        printf("\n%d", n->data);
+    }
+}
+
 int main()
 {
     struct Node *root;
-    root = newNode_creater(20);
-    insert(root,5);
-    insert(root,1);
-    insert(root,15);
-    insert(root,9);
-    insert(root,7);
-    insert(root,12);
-    insert(root,30);
-    insert(root,25);
-    insert(root,40);
-    insert(root, 45);
-    insert(root, 42);
+    root = newNode_creater(1);
 
-    level_order(root);
-    //inorder_traverse(root);
+    insert(root,2);
+    insert(root,4);
+    insert(root,5);
+    insert(root,3);
+    insert(root,6);
+    insert(root,7);
+
+    printf("%d", height(root));
+
+   // preOrder_traverse(root);
+   // inorder_traverse(root);
+  //  postOrder_traverse(root);
+  //  level_order(root);
 }
