@@ -7,22 +7,36 @@ struct Node{
     struct Node *right;
 };
 
-
-struct Node *newNode_creater(int key)
+void search_in_BT(struct Node *root, int key)
 {
-    struct Node *newNode;
-    newNode = malloc(sizeof(struct Node));
-    newNode->data = key;
-    newNode->left = NULL;
-    newNode->right = NULL;
-    return newNode;
+    if(root->data == key)
+    {
+        printf("\nKey Exists\n");
+        return;
+    } else if (root->left == NULL && root->right == NULL)
+    {
+        printf("\nKey not found\n");
+    }
+    else if(key > root->data)
+    {
+        search_in_BT(root->right, key);
+    } else if( key < root->data)
+    {
+        search_in_BT(root->left, key);
+    }
 }
 
 struct Node *insert(struct Node *root, int key)
 {
     if(root == NULL)
     {
-        return newNode_creater(key);
+        struct Node *newNode;
+        newNode = malloc(sizeof(struct Node));
+        newNode->data = key;
+        newNode->left = NULL;
+        newNode->right = NULL;
+
+        return newNode;
     }
     else if (key > root->data)
     {
@@ -72,6 +86,7 @@ void print_current_level(struct Node *root, int level)
         print_current_level(root->right, level-1);
     }
 }
+
 void level_order(struct Node *root)
 {
     int H = height(root), i;
@@ -112,22 +127,83 @@ void postOrder_traverse(struct Node *n)
     }
 }
 
+struct Node *inpre(struct Node *n)
+{
+    while (n && n->right != NULL)
+    {
+        n = n->right;
+    }
+    return n;
+}
+
+struct Node *insucc(struct Node *n)
+{
+    while (n && n->left != NULL)
+    {
+        n = n->left;
+    }
+    return n;
+}
+
+struct Node *Delete(struct Node *n, int key)
+{
+    struct Node *p;
+    if (n == NULL)
+    {
+        printf("Tree is Empty");
+        return NULL;
+    }
+    else if(n->right == NULL && n->left == NULL)
+    {
+
+        free(n);
+        return NULL;
+    }
+
+    if (key < n->data)
+    {
+        n->left = Delete(n->left, key);
+    }
+    else if(key > n->data)
+    {
+        n->right =  Delete(n->right, key);
+    } else{
+
+        if (height(n->left) > height(n->right))
+        {
+            p = inpre(n->left);
+            n->data = p->data;
+            n->left = Delete(n->left, p->data);
+        } else{
+            p = insucc(n->right);
+            n->data = p->data;
+            n->right = Delete(n->right, p->data);
+        }
+    }
+}
+
+
 int main()
 {
-    struct Node *root;
-    root = newNode_creater(1);
 
-    insert(root,2);
-    insert(root,4);
-    insert(root,5);
-    insert(root,3);
-    insert(root,6);
-    insert(root,7);
+    struct Node *root = NULL;
 
-    printf("%d", height(root));
+    root = insert(root,5);
+    int arr[] = {2,45,30,10,25};
 
-   // preOrder_traverse(root);
-   // inorder_traverse(root);
-  //  postOrder_traverse(root);
-  //  level_order(root);
+    for(int i=0; i<5 ;i++)
+    {
+        insert(root,arr[i]);
+    }
+
+    Delete(root, 10);
+    search_in_BT(root, 10);
+
+
+    //printf("%d", height(root));
+
+    // preOrder_traverse(root);
+    // inorder_traverse(root);
+    //  postOrder_traverse(root);
+    //  level_order(root);
 }
