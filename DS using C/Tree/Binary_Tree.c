@@ -11,7 +11,7 @@ void search_in_BT(struct Node *root, int key)
 {
     if(root->data == key)
     {
-        printf("\nKey Exists\n");
+        printf("\nKey Found in the BST\n");
         return;
     } else if (root->left == NULL && root->right == NULL)
     {
@@ -78,7 +78,7 @@ void print_current_level(struct Node *root, int level)
 
     if(level == 1)
     {
-        printf("\n%d", root->data);
+        printf(" %d ", root->data);
     }
     else if(level > 1)
     {
@@ -101,7 +101,7 @@ void preOrder_traverse(struct Node *n)
 {
     if(n != NULL)
     {
-        printf("\n%d" ,n->data);
+        printf(" %d " ,n->data);
         preOrder_traverse(n->left);
         preOrder_traverse(n->right);
     }
@@ -112,7 +112,7 @@ void inorder_traverse(struct Node *n)
     if(n != NULL)
     {
         inorder_traverse(n->left);
-        printf("\n%d" , n->data);
+        printf(" %d " , n->data);
         inorder_traverse(n->right);
     }
 }
@@ -123,7 +123,7 @@ void postOrder_traverse(struct Node *n)
     {
         postOrder_traverse(n->left);
         postOrder_traverse(n->right);
-        printf("\n%d", n->data);
+        printf(" %d ", n->data);
     }
 }
 
@@ -186,24 +186,76 @@ struct Node *Delete(struct Node *n, int key)
 int main()
 {
 
+    int rootelm, choice = 0, num;
     struct Node *root = NULL;
+    printf("\nEnter the Root Node first: ");
+    scanf("%d", &rootelm);
 
-    root = insert(root,5);
-    int arr[] = {2,45,30,10,25};
+    root = insert(root,rootelm);
+    printf("\n\nWelcome, Please Enter The choice of Operation You want to Perform on the Binary search Tree having root %d",rootelm);
 
-    for(int i=0; i<5 ;i++)
+    while (choice != 9)
     {
-        insert(root,arr[i]);
+        printf("\n\n=> Press 1 to Insert a new Element");
+        printf("\n=>Press 2 to Print the Pre-order Traversal");
+        printf("\n=>Press 3 to Print the In-order Traversal");
+        printf("\n=>Press 4 to Print the Post-order Traversal");
+        printf("\n=>Press 5 to Print the Level-order Traversal");
+        printf("\n=>Press 6 to get the Height of the Binary search Tree");
+        printf("\n=>Press 7 to Search an Element in the Binary search Tree");
+        printf("\n=>Press 8 to Delete an Element in the Binary Search Tree");
+        printf("\n=>Press 9 to Exit the Program\n\n");
+
+        scanf("%d" , &choice);
+
+        switch (choice)
+        {
+            case 1:
+                printf("\n\nEnter the Element you want to insert: ");
+                scanf("%d" ,&num);
+                insert(root, num);
+                break;
+
+            case 2:
+                printf("\n\nPre-order Traversal is: \n");
+                preOrder_traverse(root);
+                break;
+
+            case 3:
+                printf("\n\nIn-order Traversal is: \n");
+                inorder_traverse(root);
+                break;
+
+            case 4:
+                printf("\n\nPost-order Traversal is: \n");
+                postOrder_traverse(root);
+                break;
+
+            case 5:
+                printf("\n\nLevel-order Traversal is: \n");
+                level_order(root);
+                break;
+
+            case 6:
+                num = height(root);
+                printf("\n\nHeight of the Binary Search Tree is: %d" ,num);
+                break;
+
+            case 7:
+                printf("\n\nEnter the Element you want to Search in BST: ");
+                scanf("%d" , &num);
+                search_in_BT(root, num);
+                break;
+
+            case 8:
+                printf("\n\nEnter the Element you want to Delete: ");
+                scanf("%d" , &num);
+                Delete(root, num);
+                break;
+
+            case 9:
+                printf("\nClosing the Program Now\n");
+                break;
+        }
     }
-
-    Delete(root, 10);
-    search_in_BT(root, 10);
-
-
-    //printf("%d", height(root));
-
-    // preOrder_traverse(root);
-    // inorder_traverse(root);
-    //  postOrder_traverse(root);
-    //  level_order(root);
 }
